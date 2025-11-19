@@ -1,4 +1,4 @@
-![](<截屏2025-11-19 10.00.06.png>)
+![](<image/截屏2025-11-19 10.00.06.png>)
 
 这是一个非常典型的 GitHub Fork 仓库状态。这张截图说明你的仓库（Fork）与原始仓库（Upstream，即 `MLSysBook/TinyTorch:main`）已经产生了巨大的**分歧（Divergence）**。
 
