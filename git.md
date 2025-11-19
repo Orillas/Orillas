@@ -98,4 +98,110 @@
 2.  **建议使用命令行（方法 B）** 在本地进行合并。
 3.  做好心理准备，可能需要手动解决不少代码冲突。
 
-**如何查看上游仓库？**
+## 如何查看上游仓库？
+**当clone 或者fork其它人的项目时，如何push自己本地branch到remote**
+要查看你当前配置了哪些远程仓库（以及是否已经配置了上游仓库 `upstream`），请在终端（Terminal）中进入你的项目文件夹，然后输入以下命令：
+
+```bash
+git remote -v
+```
+
+### 输出结果分析
+
+输入上述命令后，你通常会看到以下两种情况之一：
+
+#### 情况 A：尚未配置上游仓库（最常见）
+
+如果你只看到 `origin`，说明你还没有关联原始仓库：
+
+```text
+origin  https://github.com/YourUsername/TinyTorch.git (fetch)
+origin  https://github.com/YourUsername/TinyTorch.git (push)
+```
+
+> **这意味着：** Git 目前只知道你自己的仓库，不知道原始的 `MLSysBook/TinyTorch` 在哪里。你需要手动添加。
+
+#### 情况 B：已经配置好上游仓库
+
+如果你看到了 `origin` 和 `upstream`，说明配置正确：
+
+```text
+origin    https://github.com/YourUsername/TinyTorch.git (fetch)
+origin    https://github.com/YourUsername/TinyTorch.git (push)
+upstream  https://github.com/MLSysBook/TinyTorch.git (fetch)
+upstream  https://github.com/MLSysBook/TinyTorch.git (push)
+```
+
+> **这意味着：** 你已经准备好进行同步操作了。
+
+-----
+
+### 💡 如果你发现缺少 `upstream`
+
+根据你之前的截图，原始仓库是 `MLSysBook/TinyTorch`。如果你的输出里没有 `upstream`，请直接执行下面这条命令来添加它：
+
+```bash
+git remote add upstream https://github.com/MLSysBook/TinyTorch.git
+```
+
+添加完成后，再次输入 `git remote -v` 确认一下即可。
+
+## Q2 `fatal: refusing to merge unrelated histories` 
+`fatal: refusing to merge unrelated histories` 错误，这意味着 Git 认为你本地的 `main` 分支和远程仓库的 `main` 分支在提交历史中**没有共同的祖先**。
+
+这通常是因为你先在本地初始化了一个 Git 仓库并创建了提交，然后才将它关联到一个已有的远程仓库，导致两个仓库的历史记录是独立的。
+
+### ✅ 解决方案：允许不相关的历史合并
+
+你需要告诉 Git ：“我知道这两个分支的历史不相关，但我确定它们是同一个项目，请强制合并。”
+
+在执行 `git pull` 命令时，添加 `--allow-unrelated-histories` 选项即可解决。
+
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+-----
+
+### 📘 详细步骤
+
+#### 步骤一：执行强制合并拉取
+
+运行以下命令，使用 `--allow-unrelated-histories` 选项来拉取远程仓库的最新代码。
+
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+#### 步骤二：处理合并（Merge）
+
+执行此命令后，Git 会进行合并操作，并创建一个新的合并提交 (Merge Commit) 来连接这两段不相关的历史。
+
+  * **如果发生冲突 (CONFLICT):** 你必须手动打开冲突文件，解决所有被 `<<<<<<<`、`=======` 和 `>>>>>>>` 标记的代码块，然后：
+    ```bash
+    git add .
+    git commit -m "Merged remote history with local changes"
+    ```
+  * **如果未发生冲突:** Git 会自动完成合并，并提示你输入合并提交信息（你只需保存并退出）。
+
+#### 步骤三：推送最终结果并建立追踪关系
+
+最后，将包含远程历史记录的最新合并结果推送到你的远程仓库，并**建立本地分支与远程分支的追踪关系**（因为你上一个问题提示过你没有设置）。
+
+```bash
+git push -u <remote_repository_name> <remote_branch_name>
+# example
+git push -u origin main # -u = --up-stream
+```
+相关的remote_repository_name可以通过
+```bash
+git remote -v
+```
+来查看相应的remote repository 的index
+```text
+origin  https://github.com/Orillas/Orillas.git (fetch)
+origin  https://github.com/Orillas/Orillas.git (push)
+```
+**这一步完成后，你的本地仓库和远程仓库就完全同步了，并且建立了追踪关系。后续的操作（`git pull` 和 `git push`）将不再需要这些特殊的选项。**
+
+请执行步骤一，然后告诉我结果（是自动合并了，还是出现了冲突需要手动解决）。
