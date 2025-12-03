@@ -81,10 +81,12 @@ pick <commit-hash> Commit message 4
 # 强制推送，非常小心地使用
 git push --force-with-lease
 ```
-总结
-场景	命令	是否需要强制推送	影响范围
-最近一次提交 (HEAD)	git commit --amend	是 (如果已推送)	仅改变最近一个提交
-历史记录中的提交	git rebase -i HEAD~N (用 reword)	是 (如果已推送)	重写从目标提交开始的历史记录
-我建议您始终优先使用 git commit --amend，如果需要修改更早的提交，请确保您清楚交互式变基带来的历史重写影响。
 
-您是想修改最近一次提交，还是更早的提交呢？
+### 总结命令
+```Bash
+# 1. 修改本地最近一次 commit 的 message
+git commit --amend /git commit --amend -m 'new message'
+
+# 2. 强制推送到远程，覆盖旧的提交
+git push --force-with-lease
+```

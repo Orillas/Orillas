@@ -9,7 +9,7 @@
 | 文件夹/主题 | 描述 | 主要内容 |
 | :--- | :--- | :--- |
 | `shell/` | 🐧 **Bash/Zsh Shell 脚本**的练习与项目。 | 自动化任务、系统管理脚本、函数定义等。 |
-| `Git/` | 🌳 **Git 版本控制**的高级与日常操作实践。 | Rebase、Cherry-pick、Submodule、Git Hook 示例等。 |
+| `Git/` | 🌳 **Git** 处理过程中遇到的相关问题 | Rebase、Cherry-pick、Submodule、Git Hook 示例等。 |
 | `cli-tools-notes/` | 🛠️ 学习其他**常用 CLI 工具**的笔记和配置。 | `grep`, `awk`, `sed`, `tmux`, `ssh`, `curl` 等工具的配置和用法。 |
 | `config-dotfiles/` | ⚙️ 我的 Shell 环境配置文件（`.bashrc`, `.zshrc`, `.gitconfig`）。 | 环境配置备份，别名 (Aliases)，自定义函数。 |
 
