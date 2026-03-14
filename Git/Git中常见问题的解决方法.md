@@ -701,3 +701,75 @@ git branch --set-upstream-to=upstream/dev dev
 ```
 
 以后你就再也不用纠结「我现在该 rebase 谁」这个问题了 ✅
+
+### Q:如何修改git中远端中origin修改为另外一个repository的命令
+
+修改 Git 远端仓库（remote）地址主要有三种方式，取决于你是想**直接覆盖**、**先删后加**，还是**手动编辑配置文件**。
+
+以下是具体的命令操作：
+
+---
+
+### 1. 使用 `set-url` 直接修改 (最推荐)
+
+这是最标准且快捷的方法，直接将名为 `origin` 的远程连接指向新的 URL。
+
+```bash
+git remote set-url origin <新的仓库地址>
+
+```
+
+* **例子：** `git remote set-url origin https://github.com/Orillas/new-repo.git`
+
+### 2. 先删除后添加
+
+如果你想彻底重置该远端连接，或者 `set-url` 报错，可以采用此方法。
+
+```bash
+# 删除现有的 origin
+git remote remove origin
+
+# 添加新的 origin
+git remote add origin <新的仓库地址>
+
+```
+
+### 3. 直接编辑配置文件
+
+如果你更喜欢手动操作，可以直接修改项目根目录下的隐藏配置文件。
+
+1. 打开文件：`.git/config`
+2. 找到 `[remote "origin"]` 这一行。
+3. 修改其下方的 `url = ...` 为你的新地址。
+
+---
+
+### 修改后的验证与同步
+
+修改完成后，建议执行以下操作以确保配置正确：
+
+* **检查当前远端状态：**
+```bash
+git remote -v
+
+```
+
+
+输出应显示新地址的 `(fetch)` 和 `(push)` 权限。
+* **推送到新远端：**
+如果是全新的空仓库，建议关联并推送当前分支（假设是 `main`）：
+```bash
+git push -u origin main
+
+```
+
+
+
+### 常见场景：SSH 与 HTTPS 切换
+
+如果你是从 HTTPS 切换到 SSH（或反之），命令逻辑是一样的：
+
+* **切换到 SSH:** `git remote set-url origin git@github.com:USER/REPO.git`
+* **切换到 HTTPS:** `git remote set-url origin https://github.com/USER/REPO.git`
+
+需要我帮你检查一下当前 `.git/config` 的具体配置信息吗？
